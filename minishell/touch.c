@@ -10,4 +10,5 @@ int touch(const char * filename)
         perror("touch file open fail");
         return -1;
     }
+    fclose(fp);
 }

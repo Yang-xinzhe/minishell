@@ -16,6 +16,7 @@
 #include "rm.h"
 #include "rmdir.h"
 #include "cd.h"
+#include "mv.h"
 void workShell(void)
 {
     char buf[1024] = {0};
@@ -32,27 +33,27 @@ void workShell(void)
         fgets(buf, 1024, stdin);
         cmd = strtok(buf, " \n");
         if (cmd == NULL)
-            continue; // 如果没有命令，则继续
+            continue; 
 
         if (strcmp(cmd, "ls") == 0)
         {
-            arg1 = strtok(NULL, " \n"); // 获取 ls 命令的第一个参数
-            arg2 = strtok(NULL, " \n"); // 获取 ls 命令的第二个参数
+            arg1 = strtok(NULL, " \n"); 
+            arg2 = strtok(NULL, " \n"); 
 
             if (arg1 != NULL && strcmp(arg1, "-l") == 0)
             {
                 if (arg2 != NULL)
                 {
-                    lsFileL(arg2); // 如果有第二个参数，则调用 lsFile
+                    lsFileL(arg2); 
                 }
                 else
                 {
-                    lsDirL("."); // 如果只有 "-l"，则显示当前目录的详细信息
+                    lsDirL("."); 
                 }
             }
             else
             {
-                lsDir("."); // 如果没有参数或参数不是 "-l"，则只显示当前目录下的文件
+                lsDir("."); 
             }
         }
         else if (strcmp(cmd, "cat") == 0)
@@ -83,7 +84,7 @@ void workShell(void)
             arg3 = strtok(NULL, " \n");
             if (arg1 != NULL && strcmp(arg1, "-rf") == 0 && arg2 != NULL)
             {
-                rmDir(arg2); // 递归删除目录
+                rmDir(arg2);
             }
             else if (arg1 != NULL)
             {
@@ -96,12 +97,12 @@ void workShell(void)
 
                 if (S_ISDIR(st.st_mode))
                 {
-                    // 检测是否为目录
+
                     printf("not a empty directory\n");
                 }
                 else
                 {
-                    // 如果是文件，则直接删除
+
                     rm(arg1);
                 }
             }
@@ -114,6 +115,30 @@ void workShell(void)
         {
             arg1 = strtok(NULL, " \n");
             changeDir(arg1);
+        }
+        else if (strcmp(cmd, "mv") == 0)
+        {
+            arg1 = strtok(NULL, " \n");
+            arg2 = strtok(NULL, " \n");
+            if (arg1 != NULL && arg2 != NULL)
+            {
+                if (arg2[strlen(arg2) - 1] != '/')
+                {
+                    printf("The destination directory should end with '/'.\n");
+                }
+                else
+                {
+                    mvFile(arg1, arg2);
+                }
+            }
+            else
+            {
+                printf("mv <file name> <directory name>\n");
+            }
+        }
+        else if (strcmp(cmd, "quit") == 0)
+        {
+            break;
         }
     }
 }

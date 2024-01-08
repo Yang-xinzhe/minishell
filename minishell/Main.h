@@ -19,5 +19,6 @@
 #include "rmdir.h"
 #include "cd.h"
 #include "shell.h"
+#include "mv.h"
 
 #endif

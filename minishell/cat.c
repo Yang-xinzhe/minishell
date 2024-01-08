@@ -20,4 +20,5 @@ int catFile(const char *catFile)
         write(1,buf,ret);
     }
     printf("\n");
+    close(fd);
 }
