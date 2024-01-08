@@ -20,7 +20,7 @@ int lsFile(const char *filename)
         perror("ls stat fail");
         return -1;
     }
-    printf("%-20s\t", filename);
+    printf("%10s\t", filename);
 }
 
 int lsDir(const char *dirname)
@@ -30,8 +30,24 @@ int lsDir(const char *dirname)
     while ((pdir = readdir(dir)) != NULL)
     {
         char path[1024] = {0};
-        dirname[strlen(dirname) - 1] == '/' ? sprintf(path, "%s%s", dirname, pdir->d_name) : sprintf(path, "%s/%s", dirname, pdir->d_name);
-        lsFile(path);
+        if (pdir->d_name[0] != '.')
+        {
+            lsFile(pdir->d_name);
+        }
+    }
+    closedir(dir);
+    printf("\n");
+}
+
+int lsDirA(const char *dirname)
+{
+    DIR *dir = opendir(dirname);
+    struct dirent *pdir = NULL;
+    while ((pdir = readdir(dir)) != NULL)
+    {
+        char path[1024] = {0};
+
+        lsFile(pdir->d_name);
     }
     closedir(dir);
     printf("\n");

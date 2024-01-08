@@ -51,6 +51,10 @@ void workShell(void)
                     lsDirL("."); 
                 }
             }
+            else if (arg1 != NULL && strcmp(arg1, "-a") == 0)
+            {
+                lsDirA(".");
+            }
             else
             {
                 lsDir("."); 
@@ -135,6 +139,11 @@ void workShell(void)
             {
                 printf("mv <file name> <directory name>\n");
             }
+        }
+        else if(strcmp(cmd, "rmdir") == 0)
+        {
+            arg1 = strtok(NULL, " \n");
+            rmDir(arg1);
         }
         else if (strcmp(cmd, "quit") == 0)
         {

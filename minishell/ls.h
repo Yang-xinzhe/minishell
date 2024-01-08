@@ -18,4 +18,5 @@ extern int lsDirL(const char *dirname);
 extern int ls(const char *path);
 extern int lsFile(const char *filename);
 extern int lsDir(const char *dirname);
+extern int lsDirA(const char *dirname);
 #endif
